@@ -20,7 +20,7 @@
  			`id` = #{id}
  	</select>
  	
- 	<select id="selectRealEstateRentPrice" resultType="com.quiz.lesson03.model.RealEstate">
+ 	<select id="selectRealEstateRentPrice" parameterType="int" resultType="com.quiz.lesson03.model.RealEstate">
  		SELECT
  			`id`
 			,`realtorId`
@@ -34,6 +34,27 @@
  		FROM
  			`real_estate`
  		WHERE
- 			
+ 			`rentPrice` &lt; #{rentPrice}
+ 	</select>
+ 	
+ 	<select id="selectRealEstateAreaPrice" parameterType="int" resultType="com.quiz.lesson03.model.RealEstate">
+ 		SELECT
+ 			`id`
+			,`realtorId`
+			,`address`
+			,`area`
+			,`type`
+			,`price`
+			,`rentPrice`
+			,`createdAt`
+			,`updatedAt`
+ 		FROM
+ 			`real_estate`
+ 		WHERE
+ 			`area` &gt; #{area}
+ 			AND 
+ 			`price` &lt; #{price}
+ 			And
+ 			`type` = "매매"
  	</select>
  </mapper>
