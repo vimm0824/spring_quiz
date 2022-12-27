@@ -30,7 +30,15 @@ public class RealEstateBO {
 		return realEstateDAO.insertRealEstate(realEstate);
 	}
 	
-	public int addRealEstateAsField(int id, String address, int area, String type, int price, int rentPrice) {
+	public int addRealEstateAsField(int id, String address, int area, String type, int price, Integer rentPrice) {
 		return realEstateDAO.insertRealEstateAsField(id, address, area, type, price, rentPrice);
+	}
+	
+	public int updateRealEstateById(int id, String type, int price) {
+		return realEstateDAO.updateRealEstateById(id, type, price);
+	}
+	
+	public void deleteRealEstateById(int id) {
+		realEstateDAO.deleteRealEstateById(id);
 	}
 }
