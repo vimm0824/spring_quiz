@@ -23,7 +23,7 @@ public class Lesson04Quiz01Controller {
 	public String addSellerView() {
 		return "lesson04/addSeller";
 	}
-	
+	 
 	@PostMapping("/add_seller")
 	public String addSeller(
 			@RequestParam("nickname") String nickname,
