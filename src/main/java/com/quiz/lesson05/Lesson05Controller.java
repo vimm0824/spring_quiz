@@ -5,17 +5,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.quiz.lesson02.bo.StoreBO;
+import com.quiz.lesson02.model.Store;
+import com.quiz.lesson05.bo.WeatherHistoryBO;
 import com.quiz.lesson05.model.Member;
+import com.quiz.lesson05.model.Weather;
 
 @RequestMapping("/lesson05")
 @Controller
 public class Lesson05Controller {
 
+	@Autowired
+	private WeatherHistoryBO weatherHistoryBO;
+	@Autowired
+	private StoreBO storeBO;
+	
 	// http://localhost:8080/lesson05/quiz01
 	@GetMapping("/quiz01")
 	public String quiz01() {
@@ -180,5 +192,45 @@ public class Lesson05Controller {
 		model.addAttribute("members", members);
 		
 		return "lesson05/quiz04";
+	}
+	
+	// http://localhost:8080/lesson05/weather_history_view
+	@GetMapping("/weather_history_view")
+	public String weatherHistoryView(Model model) {
+		
+		List<Weather> result = weatherHistoryBO.getWeatherHistoryList();
+		
+		model.addAttribute("result", result);
+		
+		return "lesson05/weatherHistoryView";
+	}
+	
+	// http://localhost:8080/lesson05/weather_insert_view
+	@GetMapping("/weather_insert_view")
+	public String weatherInsertView() {
+		
+		return "lesson05/weatherInsertView";
+	}
+	
+	// http://localhost:8080/lesson05/add_weather
+	@PostMapping("/add_weather")
+	public String addWeather(
+			@ModelAttribute Weather weather
+			) {
+		
+		weatherHistoryBO.addWeather(weather);
+		
+		return "redirect:weather_history_view";
+	}
+	
+	// http://localhost:8080/lesson05/store_table_view
+	@GetMapping("/store_table_view")
+	public String storeTableView(Model model) {
+		
+		List<Store> stores = storeBO.getStoreList();
+		
+		model.addAttribute("stores", stores);
+		
+		return "lesson05/storeTableView";
 	}
 }
