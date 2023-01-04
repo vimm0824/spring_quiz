@@ -6,14 +6,14 @@
  	<select id="selectWeatherHistoryList" resultType="com.quiz.lesson05.model.Weather">
  		SELECT
  			`id`
-			,`date`
-			,`weather`
-			,`temperatures`
-			,`precipitation`
-			,`microDust`
-			,`windSpeed`
-			,`createdAt`
-			,`updatedAt`
+			, `date`
+			, `weather`
+			, `temperatures`
+			, `precipitation`
+			, `microDust`
+			, `windSpeed`
+			, `createdAt`
+			, `updatedAt`
  		FROM
  			`weather_history`
  	</select>
@@ -22,24 +22,24 @@
  		INSERT INTO `weather_history`
  		(
  			`date`
-			,`weather`
-			,`temperatures`
-			,`precipitation`
-			,`microDust`
-			,`windSpeed`
-			,`createdAt`
-			,`updatedAt`
+			, `weather`
+			, `temperatures`
+			, `precipitation`
+			, `microDust`
+			, `windSpeed`
+			, `createdAt`
+			, `updatedAt`
  		)
  		VALUES
  		(
  			#{date}
- 			,#{weather}
- 			,#{temperatures}
- 			,#{precipitation}
- 			,#{microDust}
- 			,#{windSpeed}
- 			,NOW()
- 			,NOW()
+ 			, #{weather}
+ 			, #{temperatures}
+ 			, #{precipitation}
+ 			, #{microDust}
+ 			, #{windSpeed}
+ 			, NOW()
+ 			, NOW()
  		)
  	</insert>
  </mapper>

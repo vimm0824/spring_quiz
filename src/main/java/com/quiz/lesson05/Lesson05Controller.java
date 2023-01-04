@@ -19,6 +19,8 @@ import com.quiz.lesson05.bo.WeatherHistoryBO;
 import com.quiz.lesson05.model.Member;
 import com.quiz.lesson05.model.Weather;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 @RequestMapping("/lesson05")
 @Controller
 public class Lesson05Controller {
@@ -215,12 +217,14 @@ public class Lesson05Controller {
 	// http://localhost:8080/lesson05/add_weather
 	@PostMapping("/add_weather")
 	public String addWeather(
-			@ModelAttribute Weather weather
-			) {
+			@ModelAttribute Weather weather) {
 		
 		weatherHistoryBO.addWeather(weather);
 		
-		return "redirect:weather_history_view";
+		// 첫번째 방법
+		// response.sendRedirect("/lesson05/weather_insert_view");
+		
+		return "redirect:/lesson05/weather_history_view";	// 절대경로 사용하기
 	}
 	
 	// http://localhost:8080/lesson05/store_table_view
