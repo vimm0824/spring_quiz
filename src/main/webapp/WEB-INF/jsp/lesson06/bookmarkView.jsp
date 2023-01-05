@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title></title>
+<title>즐겨찾기</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> 
 	
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -24,6 +24,7 @@
 					<th>No.</th>
 					<th>이름</th>
 					<th>주소</th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -32,11 +33,32 @@
 					<td>${status.count}</td>
 					<td>${mark.name}</td>
 					<td><a href="${mark.url}" class="text-secondary">${mark.url}</a></td>
+					<td><button type="button" class="btn btn-danger delete-btn" value="${mark.id}">삭제</button></td>
 				</tr>
 				</c:forEach>
 			</tbody>
 		</table>
 		<a href="http://localhost:8080/lesson06/quiz01/add_bookmark_view" class="btn btn-info col-12">추가하기</a>
 	</div>
+	
+	<script>
+		$(document).ready(function() {
+			$('.delete-btn').on('click', function() {
+				let id = ;
+				alert(id);
+			});
+		});
+	</script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+

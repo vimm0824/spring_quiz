@@ -17,22 +17,52 @@
 		
 		<div>
 			<label for="name">제목</label>
-			<input type="text" id="name" name="name" class="form-control col-8" placeholder="사이트 제목을 입력하세요.">
+			<input type="text" id="name" class="form-control col-10" placeholder="사이트 제목을 입력하세요.">
 		</div>
+		
 		<div>
 			<label for="url">주소</label>
-			<input type="text" id="url" name="url" class="form-control col-8" placeholder="사이트 주소를 입력하세요.">
+			<div class="d-flex">
+				<input type="text" id="url" class="form-control col-9" placeholder="사이트 주소를 입력하세요.">
+				<input type="button" id="urlStatusBtn" class="btn btn-info" value="중복확인">
+			</div>
+			<small id="urlStatusArea"></small>
 		</div>
-		<input type="button" id="save" class="btn btn-success col-8 mt-4" value="추가">
+		
+		<input type="button" id="save" class="btn btn-success col-10 mt-4" value="추가">
 	</div>
 	
 	<script>
 		$(document).ready(function() {
+			$('#urlStatusBtn').on('click', function() {
+				let url = $('#url').val().trim();
+				//alert(111);
+				$('#urlStatusArea').empty();
+				
+				$.ajax({
+					type:"get"
+					, url:"/lesson06/quiz01/is_duplication"
+					, data:{"url":url}
+				
+					, success:function(data) {
+						if (data.is_duplication > 0) {
+							$('#urlStatusArea').append('<span class="text-danger">중복된 url입니다.</span>');
+						} else {
+							$('#urlStatusArea').append('<span class="text-info">추가 가능한 url입니다.</span>');
+						}
+					}
+					, error:function(e) {
+						alert("실패" + e);
+					}
+				})
+			});
+			
+			
 			$('#save').on('click', function() {
-				// alert("asdf");
+
 				let name = $('#name').val().trim();
 				if (name.length < 1) {
-					alert("사이트 이름를 입력하세요.");
+					alert("사이트 이름을 입력하세요.");
 					return;
 				}
 				
@@ -42,26 +72,30 @@
 					return;
 				}
 				
-				if ((url.startsWith("http") || url.startsWith("https")) == false) {
+				if (url.startsWith("http") == false && url.startsWith("https") == false) {
 					alert("주소 형식이 잘못되었습니다.");
 					return;
 				}
 				
-				
-				$.ajax({
+				$.ajax({	
+					// call back 함수 (무언가를 하고 기다렸다가 응답값을 주는것 => Request + Response)
+					
 					// Request
 					type:"POST"
 					, url:"/lesson06/quiz01/add_bookmark"
 					, data:{"name":name, "url":url}
 				
 					// Response
-					, success:function(data) {
-						alert(data);
-						location.href = "/lesson06/quiz01/bookmark_view";
+					, success:function(data) {	// String json => object
+						// alert(data);
+						if (data.result == "성공") {
+							location.href = "/lesson06/quiz01/bookmark_view";
+						}
 					}
 					,error:function(e) {
-						alert("error");
+						alert("error" + e);
 					}
+					
 				});
 			});
 		});

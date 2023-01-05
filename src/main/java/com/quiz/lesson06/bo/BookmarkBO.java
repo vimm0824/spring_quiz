@@ -14,11 +14,15 @@ public class BookmarkBO {
 	@Autowired
 	private BookmarkDAO bookmarkDAO;
 	
+	public void addBookmark(String name, String url) {
+		bookmarkDAO.insertBookmark(name, url);
+	}
+	
 	public List<Bookmark> getBookmarkList() {
 		return bookmarkDAO.selectBookmarkList();
 	}
 	
-	public void addBookmark(String name, String url) {
-		bookmarkDAO.insertBookmark(name, url);
+	public Integer existUserByUrl(String url) {
+		return bookmarkDAO.existUserByUrl(url);
 	}
 }
