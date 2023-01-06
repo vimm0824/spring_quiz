@@ -20,7 +20,7 @@
 			<input type="text" id="name" class="form-control col-10" placeholder="사이트 제목을 입력하세요.">
 		</div>
 		
-		<div>
+		<div class="mt-2">
 			<label for="url">주소</label>
 			<div class="d-flex">
 				<input type="text" id="url" class="form-control col-9" placeholder="사이트 주소를 입력하세요.">
@@ -36,11 +36,19 @@
 		$(document).ready(function() {
 			$('#urlStatusBtn').on('click', function() {
 				let url = $('#url').val().trim();
-				//alert(111);
+				if (url.length < 1) {
+					alert("사이트 주소를 입력하세요.");
+					return;
+				}
+				
+				if (url.startsWith("http") == false && url.startsWith("https") == false) {
+					alert("주소 형식이 잘못되었습니다.");
+					return;
+				}
 				$('#urlStatusArea').empty();
 				
 				$.ajax({
-					type:"get"
+					type:"post"
 					, url:"/lesson06/quiz01/is_duplication"
 					, data:{"url":url}
 				
@@ -52,7 +60,7 @@
 						}
 					}
 					, error:function(e) {
-						alert("실패" + e);
+						alert("에러 " + e);
 					}
 				})
 			});

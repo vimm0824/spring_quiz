@@ -28,12 +28,18 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="mark" items="${result}" varStatus="status">
+				<c:forEach var="bookmark" items="${result}" varStatus="status">
 				<tr>
 					<td>${status.count}</td>
-					<td>${mark.name}</td>
-					<td><a href="${mark.url}" class="text-secondary">${mark.url}</a></td>
-					<td><button type="button" class="btn btn-danger delete-btn" value="${mark.id}">삭제</button></td>
+					<td>${bookmark.name}</td>
+					<td><a href="${bookmark.url}" class="text-secondary">${bookmark.url}</a></td>
+					<td>
+						<%-- 1)  --%>
+						<%-- <button type="button" class="btn btn-danger delete-btn" value="${mark.id}">삭제</button> --%>
+						<%-- 2) data를 이용해서 태그에 임시 저장하기 --%>
+						<%-- 주의: 대문자 사용 불가 --%>
+						<button type="button" class="btn btn-danger delete-btn" data-bookmark-id="${bookmark.id}">삭제</button>
+					</td>
 				</tr>
 				</c:forEach>
 			</tbody>
@@ -43,9 +49,43 @@
 	
 	<script>
 		$(document).ready(function() {
-			$('.delete-btn').on('click', function() {
-				let id = ;
-				alert(id);
+			$('.delete-btn').on('click', function(e) {
+				// 방법 1
+				//let id = $(this).val();
+				//let id = $(this).attr('value');
+				
+				// 방법 2(강의: e => 클릭된 객체의 정보(function(e) -- e 필수))
+				//let id = e.target.value;
+				
+				// 방법 3(강의: data를 이용해서 태그에 임시 저장하기)
+				// 태그: data-bookmark-id		data-뒤에 우리가 이름을 정한다(대문자 사용불가)
+				// 스크립트: $(this).data('bookmark-id');
+				
+				let id = $(this).data('bookmark-id');
+				
+				$.ajax({
+					type:"delete"
+					, url:"/lesson06/quiz01/delete_bookmark_view"
+					, data: {"id":id}
+				
+					, success:function(data) {
+						if (data.code == 1) {
+							// 성공
+							location.reload(true);
+						} else if (data.code == 500) {
+							// 에러
+							alert(data.error_message);
+						}
+						// location.href => 이거로 새로고침하면 스크롤이 다시 맨위로 올라감
+						// location.href = "/lesson06/quiz01/bookmark_view";
+						
+						// 혹시 location.reload() =error> + window. , + document.
+						// location.reload();
+					}
+					, error:function(e) {
+						alert("에러" + e);
+					}
+				});
 			});
 		});
 	</script>

@@ -1,0 +1,12 @@
+@charset "UTF-8";
+#wrap {width:1500px;}
+header {height:100px;}
+.logo {font-size:60px; color:#000;text-decoration:none;}
+.logo:hover {color:#000; text-decoration:none;}
+nav {background-color:#e3871f; height:40px;}
+.contents {min-height:400px}
+.banner {height:460px;}
+.bottom {height:300px;}
+.left-right {background-color:#b1520f;}
+.login {background-color:#cf6317;}
+footer {height:80px;}

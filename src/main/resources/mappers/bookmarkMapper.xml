@@ -39,5 +39,13 @@
  			, NOW()
  		)
  	</insert>
+ 	
+ 	<delete id="deleteBookmarkById" parameterType="int">
+ 		DELETE
+ 		FROM
+ 			`bookmark`
+ 		WHERE 
+ 			`id` = #{id}
+ 	</delete>
  
  </mapper>
