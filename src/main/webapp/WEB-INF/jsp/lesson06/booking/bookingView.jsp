@@ -31,8 +31,8 @@
 			<ul class="nav nav-fill">
 				<li class="nav-item"><a href="#" class="nav-link text-white">팬션소개</a></li>
 				<li class="nav-item"><a href="#" class="nav-link text-white">객실보기</a></li>
-				<li class="nav-item"><a href="#" class="nav-link text-white">예약하기</a></li>
-				<li class="nav-item"><a href="#" class="nav-link text-white">예약목록</a></li>
+				<li class="nav-item"><a href="/lesson06/booking/insert_booking_view" class="nav-link text-white">예약하기</a></li>
+				<li class="nav-item"><a href="/lesson06/booking/booking_view" class="nav-link text-white">예약목록</a></li>
 			</ul>
 		</nav>
 		<div class="contents">
@@ -48,28 +48,72 @@
 							<th>숙박인원</th>
 							<th>전화번호</th>
 							<th>예약상태</th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
+						<c:forEach var="one" items="${result}">
 						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
+							<td>${one.name}</td>
+							<td>
+								<fmt:formatDate value="${one.date}" pattern="yyyy년 MM월 dd일" />
+							</td>
+							<td>${one.day}</td>
+							<td>${one.headcount}</td>
+							<td>${one.phoneNumber}</td>
+							<td>
+								<c:choose>
+									<c:when test="${one.state eq '대기중'}">
+										<span class="text-info">${one.state}</span>
+									</c:when>
+									<c:when test="${one.state eq '확정'}">
+										<span class="text-success">${one.state}</span>
+									</c:when>
+									<c:otherwise>
+										<span class="text-success">${one.state}</span>
+									</c:otherwise>
+								</c:choose>
+							</td>
+							<td><button type="button" class="btn btn-danger btn-delete" data-booking-id="${one.id}">삭제</button></td>
 						</tr>
+						</c:forEach>
 					</tbody>
 				</table>
 			</div>
 		</div>
 		<footer>
-			<div class="text-secondary">
+			<div class="text-secondary m-3">
 				<div><small>제주특별자치도 제주시 애월읍</small></div>
 				<div><small>사업자등록번호:111-222-55555/농어촌민박사업장/대표:김통목</small></div>
 				<div><small>Copyright 2025 © tongnamu. All Right reserved</small></div>
 			</div>
 		</footer>
 	</div>
+	
+	<script>
+		$(document).ready(function() {
+			$('.btn-delete').on('click', function() {
+				let id = $(this).data('booking-id');
+				//alert(id);
+				
+				$.ajax({
+					type:"delete"
+					, url:"/lesson06/booking/del_booking"
+					, data:{"id":id}
+					
+					,success:function(data) {
+						if (data.code == 1) {
+							location.reload(true);
+						} else {
+							alert(data.result);
+						}
+					}
+					,error:function(e) {
+						alert("에러" + e);
+					}
+				});
+			});
+		});
+	</script>
 </body>
 </html>

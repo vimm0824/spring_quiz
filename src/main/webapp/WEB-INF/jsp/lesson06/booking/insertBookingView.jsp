@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>통나무 팬션</title>
+<title>통나무 팬션 - 예약하기</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> 
 	
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -35,49 +35,42 @@
 				<li class="nav-item"><a href="/lesson06/booking/booking_view" class="nav-link text-white">예약목록</a></li>
 			</ul>
 		</nav>
-		<div class="contents">
-			<div class="banner">
-				<img alt="배너" src="/img/booking/banner1.jpg" id="bannerImage" width="1110">
+		<div class="contents mt-3">
+			<h1 class="text-center">예약하기</h1>
+			
+			<div class="d-flex justify-content-center ml-4">
+				<div class="col-6">
+					<label for="name"><b>이름</b></label>
+					<input type="text" id="name" class="form-control col-12">
+				</div>
 			</div>
-			<div class="d-flex bottom">
-				<div class="col-4 left-right h-100 d-flex justify-content-center align-items-center">
-					<div>
-						<div class="display-3 text-white">실시간</div>
-						<div class="display-3 text-white">예약하기</div>
-					</div>
+			<div class="d-flex justify-content-center ml-4 mt-2">
+				<div class="col-6">
+					<label for="date"><b>예약날짜</b></label>
+					<input type="text" id="date" class="form-control col-12">
 				</div>
-				<div class="col-4 login">
-					<div class="container mt-4">
-						<div class="text-white h3">예약확인</div>
-						<div class="d-flex justify-content-center align-items-center mt-3">
-							<div class="mt-4">
-								<div class="ml-4">
-									<label for="name"><span class="text-white">이름:</span></label>
-								</div>
-								<div class="mt-3">
-									<label for="phoneNumber"><span class="text-white">전화번호:</span></label>
-								</div>
-							</div>
-							<div class="mt-3 ml-2">
-								<div>
-									<input type="text" id="name" class="form-control">
-								</div>
-								<div class="mt-3">
-									<input type="text" id="phoneNumber" class="form-control">
-								</div>
-							</div>
-						</div>
-						<div class="d-flex justify-content-end mt-3">
-							<input type="button" id="btn-check" class="btn btn-success" value="조회하기">
-						</div>
-					</div>
+			</div>
+			<div class="d-flex justify-content-center ml-4 mt-2">
+				<div class="col-6">
+					<label for="day"><b>숙박일수</b></label>
+					<input type="text" id="day" class="form-control col-12">
 				</div>
-				<div class="col-4 left-right h-100 d-flex justify-content-center align-items-center">
-					<div class="mr-3">
-						<div class="h1 text-white">예약문의:</div>
-						<div class="h1 text-white">010-</div>
-						<div class="h1 text-white">1111-2222</div>
-					</div>
+			</div>
+			<div class="d-flex justify-content-center ml-4 mt-2">
+				<div class="col-6">
+					<label for="headcount"><b>숙박인원</b></label>
+					<input type="text" id="headcount" class="form-control col-12">
+				</div>
+			</div>
+			<div class="d-flex justify-content-center ml-4 mt-2">
+				<div class="col-6">
+					<label for="phoneNumber"><b>전화번호</b></label>
+					<input type="text" id="phoneNumber" class="form-control col-12" placeholder="ex) 010-XXXX-XXXX">
+				</div>
+			</div>
+			<div class="d-flex justify-content-center ml-4 mt-4">
+				<div class="col-6">
+					<input type="button" id="btn-insert" class="btn btn-warning col-12 text-white" value="예약하기">
 				</div>
 			</div>
 		</div>
@@ -91,53 +84,69 @@
 	</div>
 	
 	<script>
+	
 		$(document).ready(function() {
+			$('#date').datepicker({
+				dateFormat:"yy-mm-dd"
+				, minDate:0		// 오늘부터 그 뒤 선택
+			});
 			
-			let bannerSrcArr = ['/img/booking/banner1.jpg', '/img/booking/banner2.jpg',
-				'/img/booking/banner3.jpg', '/img/booking/banner4.jpg'];
-            let currentIndex = 0;
-            setInterval(function() {
-                $('#bannerImage').attr('src', bannerSrcArr[currentIndex]);
-                currentIndex++;
-
-                if (currentIndex > bannerSrcArr.length) { // 인덱스 값이 배열의 크기를 넘으면 0으로(처음 이미지) 세팅
-                    currentIndex = 0;
-                }
-            }, 3000); // 3초에 한번씩 함수 실행
-			
-			$('#btn-check').on('click', function() {
+			$('#btn-insert').on('click', function() {
+				// alert(111);
 				let name = $('#name').val().trim();
+				let date = $('#date').val();
+				let day = $('#day').val();
+				let headcount = $('#headcount').val();
 				let phoneNumber = $('#phoneNumber').val().trim();
 				
 				if (name.length < 1) {
-					alert("이름을 입력하세요.");
+					alert("이름을 입력하세요");
+					return;
+				}
+				if (date.length < 1) {
+					alert("예약날짜를 입력하세요");
+					return;
+				}
+				if (day.length < 1) {
+					alert("숙박일수를 입력하세요");
+					return;
+				}
+				if (isNaN(day) == true) {
+					alert("숙박일수를 숫자로 입력하세요");
+					return;
+				}
+				if (headcount.length < 1) {
+					alert("인원수를 입력하세요");
+					return;
+				}
+				if (isNaN(headcount) == true) {
+					alert("숙박인원을 숫자로 입력하세요");
 					return;
 				}
 				if (phoneNumber.length < 1) {
-					alert("전화번호를 입력하세요.");
+					alert("전화번호를 입력하세요");
+					return;
+				}
+				if (phoneNumber.startsWith("010-") == false) {
+					alert("전화번호 형식이 잘못되었습니다.(010-)");
 					return;
 				}
 				
 				$.ajax({
 					type:"post"
-					, url:"/lesson06/booking/check_booking"
-					, data:{"name":name, "phoneNumber":phoneNumber}
+					, url:"/lesson06/booking/insert_booking"
+					, data:{"name":name, "date":date, "day":day, "headcount":headcount, "phoneNumber":phoneNumber}
 				
 					,success:function(data) {
 						if (data.code == 1) {
-							alert("이름: " + data.result.name + 
-									"\n날짜: " + data.result.date.slice(0, 10) + 
-									"\n일수: " + data.result.day +
-									"\n인원: " + data.result.headcount +
-									"\n상태: " + data.result.state);
-						} else {
-							alert("예약된 항목이 없습니다.");
+							location.href = "/lesson06/booking/booking_view";
 						}
 					}
 					,error:function(e) {
 						alert("에러" + e);
 					}
 				});
+				
 			});
 		});
 	</script>
